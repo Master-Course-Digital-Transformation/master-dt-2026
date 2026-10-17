@@ -1,0 +1,269 @@
+%!TEX TS-program = pdflatex
+% Python Intro -- Digitale Technologien
+% Die Schalter bleiben zur Kompatibilitaet mit der Vorlage erhalten.
+\newcommand{\printpraesenzlsg}{false}
+\newcommand{\printloesungen}{false}
+\newcommand{\printbewertungen}{false}
+\newcommand{\blattnummer}{1}
+\input{include/config.tex}
+\hypersetup{pdftitle={Digitale Technologien -- Übungsblatt 1: Python Intro},pdfauthor={Prof. Dr.-Ing. Sebastian Schlesinger}}
+\lstset{language=Python,basicstyle=\small\ttfamily,numbers=none,showstringspaces=false,columns=fullflexible,keepspaces=true}
+\begin{document}
+\input{include/kopf.tex}
+
+\textbf{Lernziele:} Eine Python-Arbeitsumgebung einrichten, kleine Programme entwickeln,
+Algorithmen nachvollziehen und Klassen sowie Polymorphie einsetzen.
+
+\textbf{Arbeitsweise:} Aufgaben 1--6 bilden den Einstieg; 7--10 dienen der anschließenden
+Vertiefung und dem Selbstlernen. Planen Sie insgesamt etwa 6--8 Stunden ein, abhängig
+von Vorkenntnissen und Installationen. Das Begleitnotebook \texttt{Python\_Intro.ipynb}
+(Abschnitte A--D und G) hilft bei der Bearbeitung. Insgesamt: \textbf{100 Übungspunkte}.
+Schreiben Sie eigene Lösungen und erläutern Sie verwendete Hilfen kurz.
+
+\aufgabetitel{12}{Python und VS Code einrichten}\\
+\begin{enumerate}[a)]
+\item Installieren Sie Python 3.12 oder neuer, VS Code sowie die Microsoft-Erweiterungen
+\emph{Python} und \emph{Jupyter}. Prüfen Sie im Terminal die Python-Version:
+\texttt{python3 --version} (macOS/Linux) bzw. \texttt{py -3 --version} (Windows).
+\item Öffnen Sie einen neuen Projektordner \texttt{python-intro} in VS Code.
+Erstellen Sie über \emph{Python: Create Environment} eine virtuelle Umgebung
+\texttt{.venv} und wählen Sie sie über \emph{Python: Select Interpreter} aus.
+\item Erstellen Sie \texttt{hello.py}, das Ihren Namen und \texttt{Hallo Python!} ausgibt.
+Führen Sie die Datei aus. Geben Sie zusätzlich mit \texttt{sys.version} und
+\texttt{sys.executable} Version und Pfad des verwendeten Interpreters aus.
+\item Setzen Sie einen Breakpoint vor einer Ausgabe und starten Sie den Debugger.
+Ändern Sie eine Variable und beobachten Sie ihren Wert. Erklären Sie in der
+\texttt{README.md} den Unterschied zwischen Editor, Interpreter und virtueller Umgebung.
+\end{enumerate}
+\textbf{Nachweis:} \texttt{hello.py}, dokumentierte Python-Version, Interpreterpfad und kurze Erklärung.
+
+\aufgabetitel{8}{Git und GitHub einrichten}\\
+\begin{enumerate}[a)]
+\item Erstellen Sie ein GitHub-Konto, installieren Sie Git und prüfen Sie \texttt{git --version}.
+Legen Sie auf GitHub ein Repository \texttt{python-intro} mit README an und klonen Sie es
+über VS Code (\emph{Git: Clone}) in einen separaten Ordner. Öffnen Sie diesen als Projekt.
+\item Übernehmen Sie \texttt{hello.py} und Ihre README-Inhalte. Erstellen Sie die virtuelle
+Umgebung im geklonten Projekt neu. Tragen Sie \texttt{.venv/}, \texttt{\_\_pycache\_\_/}
+und \texttt{.ipynb\_checkpoints/} in \texttt{.gitignore} ein.
+\item Konfigurieren Sie Ihren Git-Namen und Ihre Commit-E-Mail. Erstellen Sie einen Commit
+und pushen Sie ihn. Legen Sie einen Branch \texttt{begruessung} an, ändern Sie die Begrüßung und pushen Sie den Branch.
+Öffnen und mergen Sie einen Pull Request; aktualisieren Sie anschließend lokal \texttt{main}.
+\item Erklären Sie Git vs. GitHub sowie Commit vs. Push. Halten Sie Repository-URL und
+Commit-Kennung in der README fest. Zugangsdaten gehören nicht ins Repository.
+\end{enumerate}
+\textbf{Hilfe:} \href{https://code.visualstudio.com/docs/python/python-tutorial}{VS Code: Python-Tutorial};
+\href{https://docs.github.com/en/get-started/using-github/hello-world}{GitHub: Hello World}.
+
+\newpage
+\aufgabetitel{6}{Google Colab nutzen}\\
+\begin{enumerate}[a)]
+\item Melden Sie sich bei \href{https://colab.research.google.com/}{Google Colab} an und erstellen
+Sie ein Notebook \texttt{blatt01.ipynb}. Fügen Sie eine Markdown-Zelle mit Titel und Lernziel
+sowie eine Codezelle mit \texttt{print("Hallo Colab!")} hinzu. Führen Sie diese aus.
+\item Legen Sie in einer Zelle \texttt{preis = 19.90} und \texttt{menge = 3} fest und berechnen
+Sie in einer zweiten Zelle den Umsatz. Erklären Sie, warum die Ausführungsreihenfolge zählt.
+\item Starten Sie die Laufzeit neu und führen Sie alle Zellen von oben nach unten aus.
+Laden Sie das Notebook als \texttt{.ipynb} herunter und nehmen Sie es in Ihr Git-Repository auf.
+\item Nennen Sie je einen Vorteil der lokalen Arbeit und von Colab. Was müssen Sie sichern,
+bevor eine Colab-Laufzeit endet? Unterscheiden Sie Notebook und Dateien im Laufzeitverzeichnis.
+\end{enumerate}
+\textbf{Nachweis:} Ausführbares Notebook und vier bis sechs Sätze in der README.
+Die weiteren Programmieraufgaben können Sie lokal oder in Colab lösen.
+
+\aufgabetitel{8}{Ein Python-Programm mit Docker ausführen}\\
+\begin{enumerate}[a)]
+\item Installieren und starten Sie Docker Desktop gemäß der
+\href{https://docs.docker.com/get-started/get-docker/}{offiziellen Anleitung}
+(unter Linux alternativ Docker Engine). Prüfen Sie im lokalen Terminal:
+\begin{lstlisting}[language={}]
+docker --version
+docker run --rm hello-world
+\end{lstlisting}
+\item Erstellen Sie neben \texttt{hello.py} eine Datei \texttt{Dockerfile} mit folgendem Inhalt.
+Für dieses Programm sind keine zusätzlichen Python-Pakete erforderlich.
+\begin{lstlisting}[language={}]
+FROM python:3.12-slim
+WORKDIR /app
+COPY hello.py .
+CMD ["python", "hello.py"]
+\end{lstlisting}
+\item Bauen und starten Sie das Image im Projektordner:
+\begin{lstlisting}[language={}]
+docker build -t python-intro .
+docker run --rm python-intro
+\end{lstlisting}
+Vergleichen Sie die Ausgabe mit der lokalen Ausführung. Ändern Sie die Begrüßung in
+\texttt{hello.py}. Was wird ohne erneuten Build ausgegeben, was nach einem neuen Build?
+\item Erklären Sie die Begriffe Dockerfile, Image und Container sowie den Unterschied
+zwischen einem Container und einer Python-Umgebung \texttt{.venv}.
+\end{enumerate}
+\textbf{Nachweis:} Dockerfile, Befehle und beobachtete Ausgaben in der README.
+Falls die Installation auf Ihrem Gerät scheitert, dokumentieren Sie Fehlermeldung und
+Lösungsversuch; bearbeiten Sie die Python-Aufgaben zunächst in Colab weiter.
+
+\begin{notes}
+\textbf{Ergebnisse organisieren:} Speichern Sie Aufgaben 5--10 in \texttt{blatt01.py}
+oder im Notebook. Funktionen sollen Ergebnisse mit \texttt{return} zurückgeben;
+Ausgaben dienen nur der Darstellung. Ergänzen Sie die genannten Tests und mindestens
+einen selbst gewählten Randfall pro Funktion. Nutzen Sie nur die Python-Standardbibliothek.
+\end{notes}
+
+\newpage
+\aufgabetitel{12}{Kleine Programme: Variablen, Bedingungen und Schleifen}\\
+\begin{enumerate}[a)]
+\item \textbf{Temperaturumrechner (3 P.):} Lesen Sie eine Celsius-Temperatur mit \texttt{input}
+ein, wandeln Sie sie mit \texttt{float} in eine Zahl um und berechnen Sie
+$F=C\cdot 9/5+32$. Geben Sie das Ergebnis mit einer Nachkommastelle aus.
+Prüfen Sie $0\mapsto32$, $100\mapsto212$ und $-40\mapsto-40$.
+Warum ist eine Typumwandlung nötig?
+\item \textbf{Versandkosten (3 P.):} Schreiben Sie \texttt{versand(warenwert)}.
+Für einen nichtnegativen Warenwert unter 50 Euro betragen die Versandkosten 4{,}90 Euro,
+ab 50 Euro sind sie null. Negative Werte sollen einen \texttt{ValueError} auslösen.
+Prüfen Sie 0, 49{,}99, 50 und $-1$.
+\item \textbf{FizzBuzz (3 P.):} Geben Sie die Zahlen 1 bis einschließlich 30 aus.
+Ersetzen Sie durch 3 teilbare Zahlen durch \texttt{Fizz}, durch 5 teilbare durch
+\texttt{Buzz} und durch beide teilbare durch \texttt{FizzBuzz}.
+Nutzen Sie \texttt{\%}. Warum ist die Reihenfolge der Bedingungen wichtig?
+\item \textbf{Umsätze (3 P.):} Gegeben sind \texttt{preise = [12, 8, 15, 10]} und
+\texttt{mengen = [2, 5, 1, 3]}. Berechnen Sie mit einer Schleife die Einzelumsätze,
+den Gesamtumsatz und die Anzahl der Einzelumsätze ab 30 Euro.
+Erwartung: \texttt{[24, 40, 15, 30]}, Gesamtumsatz 109, Anzahl 2.
+\end{enumerate}
+
+\aufgabetitel{10}{Funktionen, Strings und Dictionaries}\\
+\begin{enumerate}[a)]
+\item \textbf{Durchschnitt (4 P.):} Implementieren Sie \texttt{durchschnitt(werte)} für eine
+Liste von Zahlen ohne \texttt{sum}. Bei einer leeren Liste soll \texttt{ValueError}
+ausgelöst werden. Prüfen Sie:
+\begin{lstlisting}
+assert durchschnitt([2, 4, 6]) == 4
+assert durchschnitt([5]) == 5
+assert durchschnitt([-4, 2]) == -1
+\end{lstlisting}
+Ergänzen Sie einen Test mit \texttt{try/except}, der den Fehlerfall überprüft.
+\item \textbf{Palindrom (3 P.):} Implementieren Sie \texttt{ist\_palindrom(text)}.
+Ignorieren Sie Groß-/Kleinschreibung und Leerzeichen; andere Zeichen bleiben erhalten.
+\texttt{"Lagerregal"} und \texttt{"Ab ba"} liefern \texttt{True}, \texttt{"Python"}
+liefert \texttt{False}. Der leere String gilt hier als Palindrom.
+Tipp: \texttt{lower}, \texttt{replace} und Slicing.
+\item \textbf{Häufigkeiten (3 P.):} Zählen Sie in
+\texttt{["Web", "Shop", "Web", "Partner", "Web"]} die Häufigkeit jedes Werts
+mit einem Dictionary und einer Schleife, ohne \texttt{Counter}.
+Erwartung: \texttt{\{"Web": 3, "Shop": 1, "Partner": 1\}}.
+Verpacken Sie den Code in \texttt{haeufigkeiten(werte)}; für \texttt{[]} ist das Ergebnis
+\texttt{\{\}}. Tipp: \texttt{dict.get}.
+\end{enumerate}
+\textbf{Reflexion:} Erklären Sie an einer Ihrer Funktionen den Unterschied zwischen
+\texttt{print} und \texttt{return}, zwischen Parameter und Argument sowie zwischen
+\texttt{=} und \texttt{==}.
+
+% \newpage
+% \aufgabetitel{12}{Algorithmen: linear und binär suchen}\\
+% Gegeben ist die aufsteigend sortierte Liste \texttt{werte = [3, 7, 11, 18, 23, 29, 42]}.
+% Beide Suchfunktionen sollen den Index eines Treffers oder \texttt{-1} zurückgeben.
+% \begin{enumerate}[a)]
+% \item \textbf{Lineare Suche (4 P.):} Implementieren Sie \texttt{linear\_suchen(werte, ziel)}
+% ohne \texttt{in} als Mitgliedschaftstest und ohne \texttt{index}.
+% Durchlaufen Sie die Liste von links nach rechts. Bei mehrfachen Treffern soll der erste
+% Index zurückgegeben werden. Diese Suche muss auch für unsortierte Listen funktionieren.
+% \item \textbf{Binäre Suche (5 P.):} Implementieren Sie
+% \texttt{binaer\_suchen(werte, ziel)} für aufsteigend sortierte Listen.
+% Verwalten Sie eine linke und eine rechte inklusive Indexgrenze und prüfen Sie jeweils
+% die Mitte \texttt{(links + rechts) // 2}. Verkleinern Sie den Suchbereich, bis ein Treffer
+% gefunden oder der Bereich leer ist. Bei Duplikaten genügt ein beliebiger Trefferindex.
+% \item \textbf{Vergleich (3 P.):} Notieren Sie für die Suche nach 29 die nacheinander
+% geprüften Listenelemente beider Verfahren. Wie viele Listenelemente werden jeweils
+% besucht? Erklären Sie die Sortierungsvoraussetzung und den Aufwand im schlechtesten
+% Fall: $O(n)$ gegenüber $O(\log n)$. Warum lohnt sich vorheriges Sortieren nicht
+% zwangsläufig für nur eine einzige Suche?
+% \end{enumerate}
+% \textbf{Tests für beide Verfahren:}
+% \begin{lstlisting}
+% werte = [3, 7, 11, 18, 23, 29, 42]
+% # Jeweils beide Funktionsnamen einsetzen:
+% assert linear_suchen(werte, 29) == 5
+% assert linear_suchen(werte, 3) == 0
+% assert linear_suchen(werte, 42) == 6
+% assert linear_suchen(werte, 8) == -1
+% assert linear_suchen([], 8) == -1
+% \end{lstlisting}
+% Prüfen Sie zusätzlich eine Liste mit nur einem Element sowie eine Liste mit Duplikaten.
+% Die Eingabeliste soll unverändert bleiben.
+
+% \aufgabetitel{10}{Algorithmen: Insertion Sort}\\
+% Beim Sortieren durch Einfügen ist der linke Teil einer Liste bereits sortiert.
+% Das nächste Element wird an der passenden Stelle in diesen Teil eingefügt.
+% \begin{enumerate}[a)]
+% \item \textbf{Von Hand (3 P.):} Beginnen Sie mit \texttt{[5, 2, 4, 1, 3]}.
+% Notieren Sie den Zustand nach jedem der vier Einfügeschritte und markieren Sie den
+% bereits sortierten Teil.
+% \item \textbf{Implementierung (5 P.):} Schreiben Sie \texttt{insertion\_sort(werte)}.
+% Arbeiten Sie auf einer Kopie der Eingabeliste und geben Sie diese sortiert zurück.
+% Verschieben Sie größere Elemente mit einer \texttt{while}-Schleife nach rechts.
+% Nutzen Sie weder \texttt{sort} noch \texttt{sorted} in Ihrer Implementierung.
+% \item \textbf{Tests und Aufwand (2 P.):} Prüfen Sie \texttt{[]}, \texttt{[7]},
+% \texttt{[3, 1, 3, -2]} sowie bereits sortierte und umgekehrt sortierte Listen.
+% Prüfen Sie auch, dass die ursprüngliche Liste unverändert bleibt.
+% In welchem Fall sind besonders viele Verschiebungen nötig? Begründen Sie den
+% quadratischen Aufwand $O(n^2)$ im schlechtesten Fall.
+% \end{enumerate}
+% \textbf{Tipp:} Zum Überprüfen Ihrer Ergebnisse dürfen Sie \texttt{sorted} verwenden.
+
+% \newpage
+% \aufgabetitel{12}{Objektorientierung und Polymorphie}\\
+% Modellieren Sie Produkte eines kleinen Onlineshops. Preise sind hier vereinfachend
+% \texttt{float}-Werte in Euro; verwenden Sie bei Tests \texttt{math.isclose}.
+% \begin{enumerate}[a)]
+% \item \textbf{Klasse (4 P.):} Schreiben Sie \texttt{Produkt} mit
+% \texttt{\_\_init\_\_(self, name, preis)} und den Instanzattributen \texttt{name} und
+% \texttt{preis}. Negative Preise sollen bei der Erzeugung \texttt{ValueError} auslösen.
+% Die Methode \texttt{endpreis(self)} liefert den Preis zurück.
+% Erzeugen Sie zwei Objekte und erläutern Sie Klasse, Instanz, Attribut, Methode und \texttt{self}.
+% \item \textbf{Vererbung (4 P.):} Leiten Sie \texttt{RabattProdukt} von \texttt{Produkt} ab.
+% Der Konstruktor erhält zusätzlich \texttt{rabatt} als Zahl zwischen 0 und 1, etwa
+% \texttt{0.2} für 20\,\%. Verwenden Sie \texttt{super()} und weisen Sie ungültige Rabatte
+% mit \texttt{ValueError} zurück. Überschreiben Sie \texttt{endpreis} so, dass der Rabatt
+% abgezogen wird. Testen Sie auch Rabatt 0 und 1.
+% \item \textbf{Polymorphie (4 P.):} Schreiben Sie \texttt{gesamtpreis(produkte)}, das für
+% jedes Objekt \texttt{endpreis()} aufruft und die Ergebnisse summiert.
+% Verwenden Sie keine Typabfragen mit \texttt{type} oder \texttt{isinstance}.
+% \begin{lstlisting}
+% from math import isclose
+% produkte = [Produkt("Kabel", 10),
+%             RabattProdukt("Maus", 50, 0.2)]
+% assert isclose(gesamtpreis(produkte), 50)
+% assert isclose(gesamtpreis([]), 0)
+% \end{lstlisting}
+% Ergänzen Sie eine unabhängige Klasse \texttt{Gutschein} mit \texttt{endpreis()}, das
+% \texttt{-5} liefert. Die gemischte Liste soll nun 45 ergeben, ohne
+% \texttt{gesamtpreis} zu ändern. Erklären Sie daran Polymorphie und Duck Typing.
+% \end{enumerate}
+
+% \aufgabetitel{10}{Overriding und Overloading in Python}\\
+% \begin{enumerate}[a)]
+% \item \textbf{Gleicher Name (3 P.):} Sagen Sie voraus, was bei den beiden Aufrufen
+% passiert. Führen Sie sie einzeln aus und erklären Sie das Ergebnis.
+% \begin{lstlisting}
+% def begruessen(name):
+%     return "Hallo " + name
+
+% def begruessen(vorname, nachname):
+%     return "Hallo " + vorname + " " + nachname
+
+% begruessen("Ada")
+% begruessen("Ada", "Lovelace")
+% \end{lstlisting}
+% \item \textbf{Optionale Parameter (3 P.):} Ersetzen Sie die Definitionen durch eine
+% Funktion \texttt{begruessen(vorname, nachname=None)}, die beide Aufrufe unterstützt.
+% Erklären Sie, warum zwei gleichnamige Definitionen in Python keine automatische
+% Auswahl anhand der Parameteranzahl bewirken. Grenzen Sie dies vom Überschreiben
+% (Overriding) der Methode \texttt{endpreis} in Aufgabe 9 ab.
+% \item \textbf{Operatorüberladung (4 P.):} Schreiben Sie \texttt{Vektor2D(x, y)} mit
+% \texttt{\_\_add\_\_}, sodass \texttt{Vektor2D(1, 2) + Vektor2D(3, 4)} einen neuen Vektor
+% mit \texttt{x == 4} und \texttt{y == 6} liefert. Die Operanden bleiben unverändert.
+% Bei einem ungeeigneten Operandentyp geben Sie \texttt{NotImplemented} zurück.
+% Testen Sie Addition, unveränderte Operanden und den \texttt{TypeError} bei Vektor plus Zahl.
+% \end{enumerate}
+% \textbf{Zum Abschluss:} Alle Dateien speichern, Skript bzw. Notebook von Beginn an ausführen,
+% README mit Ausführungsanleitung ergänzen und den abschließenden Stand committen und pushen.
+\end{document}
